@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+</head>
+<body>
+<h1>Admin Panel</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Phone Number</th>
+        <th>Roles</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.age}"></td>
+        <td>
+            <span th:each="role, iterStat : ${user.roles}">
+                <span th:text="${role.name}"></span>
+                <span th:if="${!iterStat.last}">, </span>
+            </span>
+        </td>
+        <td>
+            <a th:href="@{/admin/edit/{id}(id=${user.id})}">Edit</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a href="/">Back to Home</a>
+<br>
+<a href="/logout">Logout</a>
+</body>
+</html>
