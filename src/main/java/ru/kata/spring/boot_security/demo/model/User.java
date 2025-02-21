@@ -4,8 +4,13 @@ package ru.kata.spring.boot_security.demo.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
@@ -30,8 +35,10 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private long age;
 
-    @ManyToMany()
-    @JoinTable(name = "user_role",
+    @ManyToMany(fetch = FetchType.LAZY)
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    @Fetch(FetchMode.JOIN)
+    @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;

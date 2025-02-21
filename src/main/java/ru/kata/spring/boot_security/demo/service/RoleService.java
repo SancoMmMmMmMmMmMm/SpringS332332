@@ -12,4 +12,5 @@ public interface RoleService {
     void save(Role role);
 
     long count();
+    List<Role> getRoles();
 }

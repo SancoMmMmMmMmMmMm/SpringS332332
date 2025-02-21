@@ -12,7 +12,9 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepo;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -82,10 +84,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(String.format("User '%s' not found", username));
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(), mapRolesToAuthority(user.getRoles()));
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthority(user.getRoles()));
     }
 
     public Collection<? extends GrantedAuthority> mapRolesToAuthority(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority())).collect(Collectors.toList());
+    }
+    @Transactional
+    @Override
+    public void addUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepo.save(user);
     }
 }

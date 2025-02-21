@@ -19,4 +19,6 @@ public interface UserService {
     Optional<User> findByUsername(String username);
 
     long count();
+
+    void addUser(User user);
 }

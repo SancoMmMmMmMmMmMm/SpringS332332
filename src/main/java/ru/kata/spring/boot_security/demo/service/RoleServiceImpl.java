@@ -8,7 +8,7 @@ import ru.kata.spring.boot_security.demo.repositories.RoleRepo;
 import java.util.List;
 
 @Service
-public class RoleServiceImpl implements  RoleService {
+public class RoleServiceImpl implements RoleService {
 
     private final RoleRepo roleRepo;
 
@@ -37,5 +37,9 @@ public class RoleServiceImpl implements  RoleService {
     @Override
     public long count() {
         return roleRepo.count();
+    }
+    @Override
+    public List<Role> getRoles() {
+        return roleRepo.findAll();
     }
 }
